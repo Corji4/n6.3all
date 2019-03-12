@@ -12,11 +12,10 @@ struct students
 	int age;
 	string gender;
 	int course;
-	double progress;
+	double progres;
 };
 
-void print_list_txt(students* list, int number, ofstream& output);
-void print_list_bin(students* list, int number, ofstream& output);
+void print_list(students* list, int number, ofstream& output);
 void create(students list[], int number_of_students);
 string get_name(string gender);
 
@@ -27,21 +26,11 @@ int main()
 	students list[100];
 	int number_of_students = 1 + rand() % 100;
 	create(list, number_of_students);
-	ofstream all_students_bin("all_students.bin", ios::binary);
+	ofstream output("output.txt");
 	for (int i = 0; i < number_of_students; i++)
 	{
-		print_list_bin(list, i, all_students_bin);
+		print_list(list, i, output);
 	}
-	all_students_bin.close();
-	ofstream bad_txt("bad_students.txt");
-	for (int i = 0; i < number_of_students; i++)
-	{
-		if (list[i].progress < 4)
-		{
-			print_list_txt(list, i, bad_txt);
-		}
-	}
-	bad_txt.close();
 	system("pause");
 	return 0;
 }
@@ -85,37 +74,23 @@ void create(students list[], int number_of_students)
 		{
 
 			(list + i)->gender = "Парень";
-			(list + i)->age = 17 + rand() % 4;
-			(list + i)->course = (list + i)->age - 16;
-			(list + i)->progress = 1 + rand() % 10;
+			(list + i)->age = 17 + rand() % 7;
+			(list + i)->course = 1 + rand() % 4;
+			(list + i)->progres = 1 + rand() % 10;
 			(list + i)->full_name = get_name("b");
 		}
 		else
 		{
 			(list + i)->gender = "Девушка";
-			(list + i)->age = 17 + rand() % 4;
-			(list + i)->course = (list + i)->age - 16;
-			(list + i)->progress = 1 + rand() % 10;
+			(list + i)->age = 17 + rand() % 7;
+			(list + i)->course = 1 + rand() % 4;
+			(list + i)->progres = 1 + rand() % 10;
 			(list + i)->full_name = get_name("g");
 		}
 	}
 }
 
-void print_list_txt(students* list, int number, ofstream& output)
+void print_list(students* list, int number, ofstream& output)
 {
-	output << setw(35) << (list + number)->full_name << setw(10) << (list + number)->age << setw(10) << (list + number)->gender << setw(10) << (list + number)->course << setw(10) << (list + number)->progress << endl;
-}
-
-void print_list_bin(students* list, int number, ofstream& output)
-{
-	string name = (list + number)->full_name;
-	output.write(reinterpret_cast <char*> (&name), sizeof(string));
-	int age = (list + number)->age;
-	output.write(reinterpret_cast <char*> (&age), sizeof(int));
-	string gender = (list + number)->gender;
-	output.write(reinterpret_cast <char*> (&gender), sizeof(string));
-	int course = (list + number)->course;
-	output.write(reinterpret_cast <char*> (&course), sizeof(int));
-	double progress = (list + number)->progress;
-	output.write(reinterpret_cast <char*> (&progress), sizeof(double));
+	output << setw(35) << (list + number)->full_name << setw(10) << (list + number)->age << setw(10) << (list + number)->gender << setw(10) << (list + number)->course << setw(10) << (list + number)->progres << endl;
 }

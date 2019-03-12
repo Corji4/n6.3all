@@ -1,3 +1,3 @@
 ﻿  main.cpp
-c:\users\corji4\source\repos\n6.3all\n6.3all\main.cpp(26): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\corji4\source\repos\n6.3all\n6.3all\main.cpp(25): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   n6.3all.vcxproj -> C:\Users\Corji4\source\repos\n6.3all\Debug\n6.3all.exe
