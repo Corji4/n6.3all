@@ -8,7 +8,9 @@ using namespace std;
 
 struct students
 {
-	string full_name;
+	string name1;
+	string name2;
+	string name3;
 	int age;
 	string gender;
 	int course;
@@ -18,6 +20,7 @@ struct students
 void print_list_txt(students* list, int number, ofstream& output);
 void print_list_bin(students* list, int number, ofstream& output);
 void create(students list[], int number_of_students);
+void print_to_console(string name);
 string get_name(string gender);
 
 int main()
@@ -42,38 +45,20 @@ int main()
 		}
 	}
 	bad_students_txt.close();
+	print_to_console("bad_students.txt");
 	system("pause");
 	return 0;
 }
 
 string get_name(string gender)
 {
-	ifstream name1("name1" + gender + ".txt");
-	ifstream name2("name2" + gender + ".txt");
-	ifstream name3("name3" + gender + ".txt");
-	string n;
+	ifstream name("name" + gender + ".txt");
 	string result = "";
-	int k = rand() % 50;
+	int k = 1 + rand() % 40;
 	for (int j = 0; j < k; j++)
 	{
-		name2 >> n;
+		name >> result;
 	}
-	result += n;
-	k = rand() % 50;
-	for (int j = 0; j < k; j++)
-	{
-		name1 >> n;
-	}
-	result += " " + n;
-	k = rand() % 10;
-	for (int j = 0; j < k; j++)
-	{
-		name3 >> n;
-	}
-	result += " " + n;
-	name1.close();
-	name2.close();
-	name3.close();
 	return result;
 }
 
@@ -88,7 +73,9 @@ void create(students list[], int number_of_students)
 			(list + i)->age = 17 + rand() % 4;
 			(list + i)->course = (list + i)->age - 16;
 			(list + i)->progress = 1 + rand() % 10;
-			(list + i)->full_name = get_name("b");
+			(list + i)->name1 = get_name("1b");
+			(list + i)->name2 = get_name("2b");
+			(list + i)->name3 = get_name("3b");
 		}
 		else
 		{
@@ -96,19 +83,32 @@ void create(students list[], int number_of_students)
 			(list + i)->age = 17 + rand() % 4;
 			(list + i)->course = (list + i)->age - 16;
 			(list + i)->progress = 1 + rand() % 10;
-			(list + i)->full_name = get_name("g");
+			(list + i)->name1 = get_name("1g");
+			(list + i)->name2 = get_name("2g");
+			(list + i)->name3 = get_name("3g");
 		}
 	}
 }
 
 void print_list_txt(students* list, int number, ofstream& output)
 {
-	output << setw(35) << (list + number)->full_name << setw(10) << (list + number)->age << setw(10) << (list + number)->gender << setw(10) << (list + number)->course << setw(10) << (list + number)->progress << endl;
+	output << setw(15) << (list + number)->name2;
+	output << setw(15) << (list + number)->name1;
+	output << setw(20) << (list + number)->name3;
+	output << setw(5) << (list + number)->age;
+	output << setw(10) << (list + number)->gender;
+	output << setw(5) << (list + number)->course;
+	output << setw(5) << (list + number)->progress;
+	output << endl;
 }
 
 void print_list_bin(students* list, int number, ofstream& output)
 {
-	string name = (list + number)->full_name;
+	string name = (list + number)->name2;
+	output.write(reinterpret_cast <char*> (&name), sizeof(string));
+	name = (list + number)->name1;
+	output.write(reinterpret_cast <char*> (&name), sizeof(string));
+	name = (list + number)->name3;
 	output.write(reinterpret_cast <char*> (&name), sizeof(string));
 	int age = (list + number)->age;
 	output.write(reinterpret_cast <char*> (&age), sizeof(int));
@@ -116,6 +116,42 @@ void print_list_bin(students* list, int number, ofstream& output)
 	output.write(reinterpret_cast <char*> (&gender), sizeof(string));
 	int course = (list + number)->course;
 	output.write(reinterpret_cast <char*> (&course), sizeof(int));
-	int progress = (list + number)->progress;
-	output.write(reinterpret_cast <char*> (&progress), sizeof(int));
+	double progress = (list + number)->progress;
+	output.write(reinterpret_cast <char*> (&progress), sizeof(double));
+}
+
+void print_to_console(string file_name)
+{
+	ifstream input(file_name);
+	string name1, name2, name3;
+	input >> name2;
+	input >> name1;
+	input >> name3;
+	int age;
+	input >> age;
+	string gender;
+	input>>gender;
+	int course;
+	input >> course;
+	double progress;
+	input >> progress;
+	while (!input.eof())
+	{
+		cout << setw(15) << name2;
+		cout << setw(15) << name1;
+		cout << setw(20) << name3;
+		cout << setw(5) << age;
+		cout << setw(10) << gender;
+		cout << setw(5) << course;
+		cout << setw(5) << progress;
+		cout << endl;
+		input >> name2;
+		input >> name1;
+		input >> name3;
+		input >> age;
+		input >> gender;
+		input >> course;
+		input >> progress;
+	}
+	input.close();
 }
