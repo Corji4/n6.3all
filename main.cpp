@@ -17,10 +17,9 @@ struct students
 	double progress;
 };
 
-void print_list_txt(students* list, int number, ofstream& output);
-void print_list_bin(students* list, int number, ofstream& output);
+void write_list_bin(students* list, int number, ofstream& output);
 void create(students list[], int number_of_students);
-void get_new_list(string name, students list[], int number);
+void read_file_to_list(string name, students list[], int number);
 string get_name(string gender);
 
 int main()
@@ -34,7 +33,7 @@ int main()
 	ofstream all_students_bin("all_students.bin", ios::binary);
 	for (int i = 0; i < number_of_students; i++)
 	{
-		print_list_bin(list, i, all_students_bin);
+		write_list_bin(list, i, all_students_bin);
 	}
 	all_students_bin.close();
 	ofstream bad_students_bin("bad_students.bin",ios::binary);
@@ -43,12 +42,12 @@ int main()
 	{
 		if (list[i].progress < 4)
 		{
-			print_list_bin(list, i, bad_students_bin);
+			write_list_bin(list, i, bad_students_bin);
 			bad_number++;
 		}
 	}
 	bad_students_bin.close();
-	get_new_list("bad_students.bin", bad_list, bad_number);
+	read_file_to_list("bad_students.bin", bad_list, bad_number);
 	system("pause");
 	return 0;
 }
@@ -93,19 +92,7 @@ void create(students list[], int number_of_students)
 	}
 }
 
-void print_list_txt(students* list, int number, ofstream& output)
-{
-	output << setw(15) << (list + number)->name2;
-	output << setw(15) << (list + number)->name1;
-	output << setw(20) << (list + number)->name3;
-	output << setw(5) << (list + number)->age;
-	output << setw(10) << (list + number)->gender;
-	output << setw(5) << (list + number)->course;
-	output << setw(5) << (list + number)->progress;
-	output << endl;
-}
-
-void print_list_bin(students* list, int number, ofstream& output)
+void write_list_bin(students* list, int number, ofstream& output)
 {
 	string name1, name2, name3;
 	name2= (list + number)->name2;
@@ -124,7 +111,7 @@ void print_list_bin(students* list, int number, ofstream& output)
 	output.write(reinterpret_cast <char*> (&progress), sizeof(double));
 }
 
-void get_new_list(string name, students list[], int number)
+void read_file_to_list(string name, students list[], int number)
 {
 	ifstream input(name,ios::binary);
 	input.clear();
