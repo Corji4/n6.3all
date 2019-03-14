@@ -23,6 +23,9 @@
     <None Include="all_students.bin">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="bad_students.bin">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="bad_students.txt">

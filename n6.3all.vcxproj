@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="all_students.bin" />
+    <None Include="bad_students.bin" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="bad_students.txt" />
